@@ -3,7 +3,7 @@
 #pragma comment(lib,"ws2_32.lib")
 
 #include "../header.h"
-#include "../getKey.h"
+//#include "../getKey.h"
 
 int main() {
 	int msgCounter = 1;
@@ -56,7 +56,7 @@ int main() {
         server_reply[recv_size] = '\0';
 
         // printf("%c", server_reply[473]);
-        // printf("%s", server_reply);
+         printf("%s", server_reply);
 
         if (server_reply[473] != 'X') {
             printf(" ");
