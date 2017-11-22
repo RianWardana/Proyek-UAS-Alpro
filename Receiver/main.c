@@ -3,7 +3,7 @@
 #pragma comment(lib,"ws2_32.lib")
 
 #include "../header.h"
-#include "../getKey.h"
+//#include "../getKey.h"
 
 int main() {
 	int msgCounter = 1;
@@ -55,15 +55,49 @@ int main() {
         recv_size = recv(s, server_reply, 2000 , 0);
         server_reply[recv_size] = '\0';
 
-        // printf("%c", server_reply[473]);
-        // printf("%s", server_reply);
+        //printf("%c", server_reply[473]);
+        //printf("%s", server_reply);
+        
+        int i=0;
+        char server_reply_int[2000];
 
-        if (server_reply[473] != 'X') {
+        if (server_reply[441] != 'X') {
             printf(" ");
-        	int n = (server_reply[473] == '\n' ? 474 : 473);
-	        for (n; n < strlen(server_reply); n++) printf("%c", server_reply[n]);
+        	int n = (server_reply[441] == '\n' ? 441 : 440);
+	        for (n; n < strlen(server_reply); n++){
+	        	server_reply_int[i] = server_reply[n];
+	        	i++;
+	        	printf("%c",server_reply[n]);
+			}
 	        msgCounter++;
         }
+       
+        
+        
+        
+        int length=0;
+        while(server_reply_int[length] != '\0'){
+			length++;
+		} 
+		
+		 
+        for(i=0;i<length;i++){
+			printf("%c",server_reply_int[i]);
+		}
+		
+		
+        /*
+        for(i=0;i<length;i++){
+        	server_reply_int[i] = (100+(key+i));
+		}
+		
+		char complete_msg[length];
+		for(i=0;i<length;i++){
+			complete_msg[i]=server_reply_int[i];
+		}*/
+		
+		
+		
 
         closesocket(s);
         WSACleanup();
