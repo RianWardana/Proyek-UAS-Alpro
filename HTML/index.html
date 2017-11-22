@@ -3,45 +3,68 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <meta name="theme-color" content="#1E88E5">
-		<title>Proyek UAS</title>
+	    <meta name="theme-color" content="#454545">
+		<title>Proyek Akhir</title>
 
 		<style>
 			body {
 				padding: 0; 
 				margin: 0; 
 			}
-			h2 { margin-top: -20px; }
 
-			#container { 
-				margin-left: 20px;
-			}
-
-			#textBox { 
+			center#header {
 				padding: 0;
 				margin: 0;
-				background-color: #000;
+				height: 25vh;
+				overflow: auto;
+			}
+
+			h2 { margin-top: -20px; }
+
+			p {
+				margin: 0 5px 10px;
+			}
+
+			div#container { 
+				background-color: #ccc;
+				margin: 0 10px 0;
+				padding: 5px;
+				height: 62vh;
+				overflow: auto;
+			}
+
+			div#textBox { 
+				padding: 0;
+				margin: 0 10px 0;
 				position: absolute;
 				bottom: 0;
-				height: 100px;
-				width: 100vw;
+				height: 10vh;
 			}
+
+			#formMsg { display: none; }
 		</style>
 	</head>
 
 
 
 	<body>
-		<center>
-			<h1>Proyek Algoritma dan Pemrograman</h1>
-			<h2>Ida Bagus Krishna Yoga Utama</h2>
-			<h2>Nurian Satya Wardana</h2>	
+		<center id="header">
+			<h1>Proyek Akhir</h1>
+			<h2>Ida Bagus Krishna Y. U.</h2>
+			<h2>Nurian S. Wardana</h2>	
 		</center>
 
-		<div id="container" style="margin-left: 50px;"></div>
+		<div id="container"></div>
 		
 		<div id="textBox">
-			
+			<div id="formName">
+				<input id="textName" autofocus type="text" placeholder="Tulis nama Anda" style="width: 70vw;">
+				<button id="btnSendName" style="width: 20vw;">Kirim</button>
+			</div>
+			<div id="formMsg">
+				<input id="textMsg" autofocus type="text" placeholder="Tulis pesan Anda" style="width: 70vw;">
+				<button id="btnSendMsg" style="width: 20vw;">Kirim</button>
+			</div>
 		</div>
 
 		<script src="app.js"></script>
