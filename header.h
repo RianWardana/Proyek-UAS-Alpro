@@ -93,10 +93,10 @@ int sender(){
                         "Connection: keep-alive\r\n"
                         "Content-Type: text/plain\r\n"
                         "Accept: */*\r\n"
-                        "Content-Length: %d\r\n\r\n", strlen(msgEncrypted) + 4);
+                        "Content-Length: %d\r\n\r\n", strlen(msgEncrypted) + 0); // tadinya + 4
         
         // Formatting pesan //////////////////////////////////////////////////////////////////
-        sprintf(msgUrlFormatted, "%s\r\n", msgEncrypted);
+        sprintf(msgUrlFormatted, "%s", msgEncrypted); // tadinya %s\r\n
 
         // Kirim HTTP POST request ///////////////////////////////////////////////////////////
         send(s, header, strlen(header), 0);
