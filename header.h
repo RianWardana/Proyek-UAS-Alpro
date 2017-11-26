@@ -3,57 +3,58 @@
 #include <string.h>
 #include <winsock2.h>
 #pragma comment(lib,"ws2_32.lib")
+
 #include "getKey.h"
-void printHeader();
+
 int sender();
+void printHeader();
 int helpMenu();
+void populateTable();
+
+int table[95];
+
+
 
 int sender(){
-	char nama[20];                      	// nama pengirim pesan sebagai pengenal
-    char msgRaw[99];                    	// pesan yang ditulis pengguna dengan panjang maksimal 100 karakter
-    char pmsh[5];
+	char nama[20];
+    char msgRaw[99];
+    char *msgWithName = (char*)malloc(120); 	// pesan yang sudah disertai dengan nama pengirim
 
     printHeader();
     
     int key = getKey();
+    populateTable(key);
+    // printf("Key: %d\n", key);
 
     printf(" Nama Anda: ");
     scanf(" %[^\n]%*c", &nama);
-    
-    strcpy(pmsh," : ");
 
  	while (1) {
-        
+        // printHeader();
         printf("\n Pesan Anda: ");
         scanf(" %[^\n]%*c", msgRaw);
         
-        strcat(nama, pmsh);
-        strcat(nama,msgRaw);
+        // Menggabungkan [NAMA] dan [PESAN] menjadi [NAMA]: [PESAN]
+        sprintf(msgWithName, "%s: %s", nama, msgRaw);
         
-        int i = 0, length = 0, j;
+        int i = 0, length = 0;
 		
-		while(nama[length] != '\0'){
+		// Untuk mengetahui panjang [PESAN]
+		while(msgWithName[length] != '\0'){
 			length++;
 		} 
 		
-		int encrypted[length];
+		// Mendeklarasi msgEncrypted yang panjangnya
+		// sesuai dengan panjang [PESAN]
+		char *msgEncrypted = (char*)malloc(length);
 
-		for(i=0;i<length;i++){
-			encrypted[i]=nama[i]; 
-		}
-
-		for(j=0;j<i;j++){
-			encrypted[j] -= (100-(key+j));
+		for (i = 0; i < length; i++) {
+			msgEncrypted[i] = table[msgWithName[i]-32] + 32;
 		}
 
 		printf("\n Data yang telah terenkripsi adalah: \n ");
 		for(i = 0; i < length; i++){
-			printf("%c", encrypted[i]);
-		}
-		
-		char msgEn[length];
-		for(i = 0; i < length; i++){
-			msgEn[i] = encrypted[i];
+			printf("%c", msgEncrypted[i]);
 		}
 
 	/* ==================== Start of WinSock Class ===================================================== */
@@ -61,8 +62,6 @@ int sender(){
         SOCKET s;
         struct sockaddr_in server;
         char *header = (char*)malloc(500);             // header untuk HTTP POST request
-        char *msgWithName = (char*)malloc(120);        // pesan yang sudah disertai dengan nama pengirim
-        char *msgEncrypted = (char*)malloc(120);       // pesan yang sudah terenkripsi
         char *msgUrlFormatted = (char*)malloc(130);    // pesan yang sudah sesuai format HTTP POST x-www-form-urlencoded
      
         // Inisialisasi Winsock //////////////////////////////////////////////////////////////////
@@ -87,12 +86,6 @@ int sender(){
             printf(" Tidak dapat terhubung dengan server.");
             return 1;
         } //else printf("Koneksi ke server berhasil.\n");
-        
-        // Pesan yang dikirim adalah "[NAMA]: [PESAN]"
-        //sprintf(msgWithName, "%s: %s", nama, msgEn);
-
-        // sementara, msgEncrypted = msgWithName, tapi nanti diganti ya
-        sprintf(msgEncrypted, "%s", msgEn);
 
         // Formatting header //////////////////////////////////////////////////////////////////
         sprintf(header, "POST /alpro/index.php/app/send HTTP/1.1\r\n"
@@ -115,11 +108,30 @@ int sender(){
     }
 }
 
+
+
+void populateTable(int key) {
+	int i;
+	for (i = 0; i < 95; i++) table[i] = -1;
+
+	int a = 0;
+	for (i = 0; i < 95; i++) {
+		a = a + key;
+		if (a > 94) a = a - 95;
+		while (table[a] != -1) {
+			a++;
+			if (a > 94) a = a - 95;
+		}
+		table[a] = i;
+	}
+}
+
+
+
 int helpMenu(){ 
 	char rpt,pilih;
 	
 	do{
-	
 		system("mode 80");
 		system("color F0");
 		system("cls");
@@ -167,7 +179,7 @@ int helpMenu(){
 			   "\n Pilih (n) untuk keluar dari program"
 			   "\n Pilihan anda (y/n) : ");
 		scanf(" %c", &rpt);
-	}while(rpt == 'y');
+	} while(rpt == 'y');
 	
 	return 0;
 }
