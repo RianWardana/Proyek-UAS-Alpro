@@ -50,6 +50,7 @@ int sender(){
 		char *msgEncrypted = (char*)malloc(length);
 
 		for (i = 0; i < length; i++) {
+			if ((msgWithName[i] > 126) || (msgWithName[i] < 32)) msgWithName[i] == '?';
 			msgEncrypted[i] = table[msgWithName[i]-32] + 32;
 		}
 

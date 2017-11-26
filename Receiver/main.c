@@ -58,14 +58,11 @@ int main() {
         //printf("%s", server_reply);
         
         int a;
-        // char server_reply_int[2000];
 
         if (server_reply[473] != 'X') {
             printf(" ");
         	int n = (server_reply[473] == '\n' ? 474 : 473);
 	        for (n; n < strlen(server_reply); n++){
-	        	// server_reply_int[i] = server_reply[n];
-	        	// i++;
                 for (a = 0; a < 95; a++) {
                     if (server_reply[n] - 32 == table[a]) {
                         server_reply[n] = a + 32;
@@ -78,30 +75,6 @@ int main() {
             printf("\n");
         }
        
-        
-        
-        
-  //       int length=0;
-  //       while(server_reply_int[length] != '\0'){
-		// 	length++;
-		// } 
-		
-		 
-  //       for(i=0;i<length;i++){
-		// 	printf("%c",server_reply_int[i]);
-		// }
-		
-		
-        /*
-        for(i=0;i<length;i++){
-        	server_reply_int[i] = (100+(key+i));
-		}
-		
-		char complete_msg[length];
-		for(i=0;i<length;i++){
-			complete_msg[i]=server_reply_int[i];
-		}*/
-		
         closesocket(s);
         WSACleanup();
         sleep(1);
