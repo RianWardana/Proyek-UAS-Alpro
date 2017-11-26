@@ -30,7 +30,7 @@ int sender(){
     scanf(" %[^\n]%*c", &nama);
 
  	while (1) {
-        // printHeader();
+        printHeader();
         printf("\n Pesan Anda: ");
         scanf(" %[^\n]%*c", msgRaw);
         
@@ -52,10 +52,10 @@ int sender(){
 			msgEncrypted[i] = table[msgWithName[i]-32] + 32;
 		}
 
-		printf("\n Data yang telah terenkripsi adalah: \n ");
-		for(i = 0; i < length; i++){
-			printf("%c", msgEncrypted[i]);
-		}
+		// printf("\n Data yang telah terenkripsi adalah: \n ");
+		// for(i = 0; i < length; i++){
+		// 	printf("%c", msgEncrypted[i]);
+		// }
 
 	/* ==================== Start of WinSock Class ===================================================== */
         WSADATA wsa;

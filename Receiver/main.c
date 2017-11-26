@@ -9,7 +9,9 @@ int main() {
 	int msgCounter = 1;
     printHeader();
     int key = getKey();
+    populateTable(key);
     printHeader();
+    printf("\n");
 
 	while (1) {
 		WSADATA wsa;
@@ -32,7 +34,6 @@ int main() {
         } //else printf("Socket created.\n");
         
         // Definisi identitas server ///////////////////////////////////////////////////////////
-        // server.sin_addr.s_addr = inet_addr("127.0.0.1");
         server.sin_addr.s_addr = inet_addr("103.43.44.105");
         server.sin_family = AF_INET;
         server.sin_port = htons(80);
@@ -42,8 +43,6 @@ int main() {
             printf(" Tidak dapat terhubung dengan server.");
             return 1;
         } //else printf("Koneksi ke server berhasil.\n");
-
-
 
         sprintf(request, "GET /alpro/index.php/app/read/%d HTTP/1.1\r\n"
                         	"Host: 103.43.44.105\r\n"
@@ -58,32 +57,39 @@ int main() {
         //printf("%c", server_reply[473]);
         //printf("%s", server_reply);
         
-        int i=0;
-        char server_reply_int[2000];
+        int a;
+        // char server_reply_int[2000];
 
-        if (server_reply[441] != 'X') {
+        if (server_reply[473] != 'X') {
             printf(" ");
-        	int n = (server_reply[441] == '\n' ? 441 : 440);
+        	int n = (server_reply[473] == '\n' ? 474 : 473);
 	        for (n; n < strlen(server_reply); n++){
-	        	server_reply_int[i] = server_reply[n];
-	        	i++;
-	        	printf("%c",server_reply[n]);
+	        	// server_reply_int[i] = server_reply[n];
+	        	// i++;
+                for (a = 0; a < 95; a++) {
+                    if (server_reply[n] - 32 == table[a]) {
+                        server_reply[n] = a + 32;
+                        break;
+                    }
+                }
+                printf("%c",server_reply[n]);
 			}
 	        msgCounter++;
+            printf("\n");
         }
        
         
         
         
-        int length=0;
-        while(server_reply_int[length] != '\0'){
-			length++;
-		} 
+  //       int length=0;
+  //       while(server_reply_int[length] != '\0'){
+		// 	length++;
+		// } 
 		
 		 
-        for(i=0;i<length;i++){
-			printf("%c",server_reply_int[i]);
-		}
+  //       for(i=0;i<length;i++){
+		// 	printf("%c",server_reply_int[i]);
+		// }
 		
 		
         /*
@@ -96,9 +102,6 @@ int main() {
 			complete_msg[i]=server_reply_int[i];
 		}*/
 		
-		
-		
-
         closesocket(s);
         WSACleanup();
         sleep(1);
