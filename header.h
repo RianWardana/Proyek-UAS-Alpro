@@ -21,7 +21,8 @@ int sender(){
     char *msgWithName = (char*)malloc(120); 	// pesan yang sudah disertai dengan nama pengirim
 
     printHeader();
-    
+    printf("\n");
+
     int key = getKey();
     populateTable(key);
     // printf("Key: %d\n", key);
@@ -43,7 +44,7 @@ int sender(){
 		while(msgWithName[length] != '\0'){
 			length++;
 		} 
-		
+
 		// Mendeklarasi msgEncrypted yang panjangnya
 		// sesuai dengan panjang [PESAN]
 		char *msgEncrypted = (char*)malloc(length);
@@ -93,14 +94,14 @@ int sender(){
                         "Connection: keep-alive\r\n"
                         "Content-Type: text/plain\r\n"
                         "Accept: */*\r\n"
-                        "Content-Length: %d\r\n\r\n", strlen(msgEncrypted) + 0); // tadinya + 4
+                        "Content-Length: %d\r\n\r\n", length);
         
         // Formatting pesan //////////////////////////////////////////////////////////////////
-        sprintf(msgUrlFormatted, "%s", msgEncrypted); // tadinya %s\r\n
+        // sprintf(msgUrlFormatted, "%s\r\n", msgEncrypted); // tadinya %s\r\n
 
         // Kirim HTTP POST request ///////////////////////////////////////////////////////////
         send(s, header, strlen(header), 0);
-        send(s, msgUrlFormatted, strlen(msgUrlFormatted), 0);
+        send(s, msgEncrypted, strlen(msgEncrypted), 0); // tadinya msgUrlFormatted, strlen(msgUrlFormatted
         printf(" Pesan terkirim.");
         
         closesocket(s);
