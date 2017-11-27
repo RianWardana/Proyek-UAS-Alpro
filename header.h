@@ -41,7 +41,7 @@ int sender(){
         scanf(" %[^\n]%*c", msgRaw);
         
         if(strcmp(msgRaw,selesai) == 0){
-        	return 0;
+        	exit(1);
 		}
         
         
@@ -160,7 +160,8 @@ int helpMenu(){
 			   "# 2. Tulis key (password) untuk enkripsi anda                          #\n"
 			   "# 3. Tulis nama anda (nama anda sebagai pengirim pesan)                #\n"
 			   "# 4. Tulis isi pesan anda                                              #\n"
-			   "# 5. Untuk informasi lebih lanjut hubungi: Krishna (ibkyu@live.com),   #\n"
+			   "# 5. Jika ingin berhenti mengirim pesan, ketik selesai                 #\n"
+			   "# 6. Untuk informasi lebih lanjut hubungi: Krishna (ibkyu@live.com),   #\n"
 			   "#    Rian (rianwardana@live.com) \n\n"
 			   "# Anda ingin kemana?                                                   #\n"
 			   "# 1. Menu Kirim Pesan                                                  #\n"
