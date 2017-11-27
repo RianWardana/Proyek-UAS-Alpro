@@ -22,6 +22,8 @@ int sender(){
 	char nama[20];
     char msgRaw[99];
     char *msgWithName = (char*)malloc(120); 	// pesan yang sudah disertai dengan nama pengirim
+	char selesai[10];
+	strcpy(selesai,"selesai");
 
     printHeader();
     printf("\n");
@@ -37,6 +39,11 @@ int sender(){
         printHeader();
         printf("\n Pesan Anda: ");
         scanf(" %[^\n]%*c", msgRaw);
+        
+        if(strcmp(msgRaw,selesai) == 0){
+        	return 0;
+		}
+        
         
         // Menggabungkan [NAMA] dan [PESAN] menjadi [NAMA]: [PESAN]
         sprintf(msgWithName, "%s: %s", nama, msgRaw);
