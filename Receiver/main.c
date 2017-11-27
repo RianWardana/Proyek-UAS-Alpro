@@ -1,3 +1,6 @@
+// Ida Bagus Krishna Yoga Utama (1506716983)
+// Nurian Satya Wardana (1506717071)
+
 #include <stdio.h>
 #include <winsock2.h>
 #pragma comment(lib,"ws2_32.lib")
@@ -59,9 +62,9 @@ int main() {
         
         int a;
 
-        if (server_reply[473] != 'X') {
+        if (server_reply[442] != 'X') { //tadinya pakai [473]
             printf(" ");
-        	int n = (server_reply[473] == '\n' ? 474 : 473);
+        	int n = (server_reply[442] == '\n' ? 442 : 441); //tadinya pakai [473:472]
 	        for (n; n < strlen(server_reply); n++){
                 for (a = 0; a < 95; a++) {
                     if (server_reply[n] - 32 == table[a]) {

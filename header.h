@@ -1,3 +1,6 @@
+// Ida Bagus Krishna Yoga Utama (1506716983)
+// Nurian Satya Wardana (1506717071)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -139,36 +142,30 @@ int helpMenu(){
 		system("cls");
 		
 		printf("########################################################################\n"
-			   "#                ENIGMOO - Word Encryption-Decryption                  #\n"	
+			   "#                ENIGCHAT - Messenger with ASCII Based                 #\n"
+			   "#                        Encryption-Decryption                         #\n"
 			   "#                                Oleh :                                #\n"
 			   "#              1. Ida Bagus Krishna Yoga Utama - 1506716983            #\n"
 	           "#                 2. Nurian Satya Wardana - 1506717071                 #\n"
 		       "########################################################################\n"
 			   "# HELP MENU - PETUNJUK PENGOPERASIAN                                   #\n"
-			   "# 1. Masuk ke Menu Encrypt-Decrypt                                     #\n"
-			   "# 2. Tulis pilihan Anda, masukkan 1 untuk enkripsi,                    #\n"
-			   "#    masukkan 2 untuk dekripsi                                         #\n"
-			   "# 3. Tulis nama file yang akan dienkripsi atau didekripsi              #\n"
-			   "# 4. Tulis key pilihan Anda                                            #\n"
-			   "# 5. Hasil enkripsi akan disimpan ke dalam file encrypted.txt,         #\n"
-			   "#    Hasil dekripsi akan disimpan ke dalam file decrypted.txt          #\n"
+			   "# 1. Masuk ke Menu Kirim Pesan                                         #\n"
+			   "# 2. Tulis key (password) untuk enkripsi anda                          #\n"
+			   "# 3. Tulis nama anda (nama anda sebagai pengirim pesan)                #\n"
+			   "# 4. Tulis isi pesan anda                                              #\n"
 			   "# 5. Untuk informasi lebih lanjut hubungi: Krishna (ibkyu@live.com),   #\n"
 			   "#    Rian (rianwardana@live.com) \n\n"
 			   "# Anda ingin kemana?                                                   #\n"
-			   "# 1. Main Menu                                                         #\n"
-			   "# 2. Menu Encrypt-Decrypt                                              #\n"
-			   "# 3. Exit                                                              #\n"
+			   "# 1. Menu Kirim Pesan                                                  #\n"
+			   "# 2. Exit                                                              #\n"
 			   "Masukkan pilihan anda(1/2/3): ");
 		scanf(" %c", &pilih);
 		
 		switch(pilih){
 			case '1' :
-				//main();
-				break;
-			case '2' :
 				sender();
 				break;
-			case '3' :
+			case '2' :
 				return 0;
 				break;
 			default :
@@ -192,7 +189,8 @@ void printHeader(){
 	system("cls");
 		
 	printf("########################################################################\n"
-		   "#                ENIGMOO - Word Encryption-Decryption                  #\n"	
+		   "#                ENIGCHAT - Messenger with ASCII Based                 #\n"
+		   "#                        Encryption-Decryption                         #\n"	
 		   "#                                Oleh :                                #\n"
 		   "#              1. Ida Bagus Krishna Yoga Utama - 1506716983            #\n"
            "#                 2. Nurian Satya Wardana - 1506717071                 #\n"
