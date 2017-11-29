@@ -91,27 +91,27 @@ int sender(){
         // Definisi identitas server ///////////////////////////////////////////////////////////
         server.sin_addr.s_addr = inet_addr("103.43.44.105");	// lokasi server
         server.sin_family = AF_INET;
-        server.sin_port = htons(80);							// port pada server
+        server.sin_port = htons(8888);							// port pada server
      
         // Menghubungi server //////////////////////////////////////////////////////////////////
         if (connect(s, (struct sockaddr *)&server, sizeof(server)) < 0) {
             printf(" Tidak dapat terhubung dengan server.");
             return 1;
         } //else printf("Koneksi ke server berhasil.\n");
-
+		
         // Formatting header //////////////////////////////////////////////////////////////////
-        sprintf(header, "POST /alpro/index.php/app/send HTTP/1.1\r\n"
-                        "Host: 103.43.44.105\r\n"
-                        "Connection: keep-alive\r\n"
-                        "Content-Type: text/plain\r\n"
-                        "Accept: */*\r\n"
-                        "Content-Length: %d\r\n\r\n", length);
+        //sprintf(header, "POST /alpro/index.php/app/send HTTP/1.1\r\n"
+        //                "Host: 103.43.44.105\r\n"
+        //                "Connection: keep-alive\r\n"
+        //                "Content-Type: text/plain\r\n"
+        //                "Accept: */*\r\n"
+        //                "Content-Length: %d\r\n\r\n", length);
         
         // Formatting pesan //////////////////////////////////////////////////////////////////
         // sprintf(msgUrlFormatted, "%s\r\n", msgEncrypted); // tadinya %s\r\n
 
         // Kirim HTTP POST request ///////////////////////////////////////////////////////////
-        send(s, header, strlen(header), 0);
+        //send(s, header, strlen(header), 0);
         send(s, msgEncrypted, strlen(msgEncrypted), 0); // tadinya msgUrlFormatted, strlen(msgUrlFormatted
         printf(" Pesan terkirim.");
         
