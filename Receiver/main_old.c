@@ -6,24 +6,25 @@
 #pragma comment(lib,"ws2_32.lib")
 
 #include "../header.h"
+//#include "../getKey.h"
 
 int main() {
-    int msgCounter = 1;
+	int msgCounter = 1;
     printHeader();
     printf("\n");
     int key = getKey();
     populateTable(key);
     printHeader();
 
-    while (1) {
-        WSADATA wsa;
-        SOCKET s;
-        struct sockaddr_in server;
-        char *request = malloc(500); 
-        char server_reply[2000];
-        int recv_size;
+	while (1) {
+		WSADATA wsa;
+    	SOCKET s;
+    	struct sockaddr_in server;
+    	char *request = malloc(500); 
+    	char server_reply[2000];
+    	int recv_size;
 
-        // Inisialisasi Winsock //////////////////////////////////////////////////////////////////
+    	// Inisialisasi Winsock //////////////////////////////////////////////////////////////////
         if (WSAStartup(MAKEWORD(2,2), &wsa) != 0) {
             printf(" Winsock failed. Error code: %d",WSAGetLastError());
             return 1;
@@ -38,7 +39,7 @@ int main() {
         // Definisi identitas server ///////////////////////////////////////////////////////////
         server.sin_addr.s_addr = inet_addr("103.43.44.105");
         server.sin_family = AF_INET;
-        server.sin_port = htons(8080);
+        server.sin_port = htons(80);
      
         // Menghubungi server //////////////////////////////////////////////////////////////////
         if (connect(s, (struct sockaddr *)&server, sizeof(server)) < 0) {
@@ -46,17 +47,30 @@ int main() {
             return 1;
         } //else printf("Koneksi ke server berhasil.\n");
 
-        sprintf(request, "%d", msgCounter);
+        sprintf(request, "GET /alpro/index.php/app/read/%d HTTP/1.1\r\n"
+                        	"Host: 103.43.44.105\r\n"
+                        	"Connection: keep-alive\r\n"
+                        	"Accept: */*\r\n\r\n", msgCounter);
+
         send(s, request, strlen(request), 0);
 
         recv_size = recv(s, server_reply, 2000 , 0);
         server_reply[recv_size] = '\0';
+
+        // int r = 0;
+        // while (server_reply[r] != '\0') r++;
+
+        //printf("%c", server_reply[473]);
+        // printf("%s", server_reply);
+
+        // int serverLength = strlen(server_reply);
+        // printf(" %d ", r);
         
         int a;
-        int n = 0;
-        if (recv_size > 2) {
-            for (n; n < strlen(server_reply); n++) {
-                // Proses dekripsi
+        if (server_reply[473] != 'X') { //tadinya pakai [473] // 442
+            printf(" ");
+        	int n = (server_reply[473] == '\n' ? 473 : 472); //tadinya pakai [473:472] // 442:441
+	        for (n; n < strlen(server_reply); n++){
                 for (a = 0; a < 95; a++) {
                     if (server_reply[n] - 32 == table[a]) {
                         server_reply[n] = a + 32;
@@ -64,13 +78,13 @@ int main() {
                     }
                 }
                 printf("%c",server_reply[n]);
-            }
-            msgCounter++;
-            printf("\n");  
+			}
+	        msgCounter++;
+            // printf("\n");
         }
-            
+       
         closesocket(s);
         WSACleanup();
         sleep(1);
-    }
+	}
 }
