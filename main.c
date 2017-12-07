@@ -1,6 +1,7 @@
 // Ida Bagus Krishna Yoga Utama (1506716983)
 // Nurian Satya Wardana (1506717071)
 
+// Melampirkan libary-library yang dibutuhkan.
 #include <stdio.h>
 #include <stdlib.h>
 #include <winsock2.h>
@@ -8,12 +9,15 @@
 #include "header.h"
 
 
+// Fungsi utama dari program Transmitter.
+// Pada dasarnya fungsi ini untuk mengarahkan
+// pengguna ke program yang dituju, yaitu 
+// mengirim pesan atau menampilkan menu Help
 int main(){	
 	char pilih;
 	char rpt1;
 
 	do{
-		
 		printHeader();
 		
 		printf("\n 1. Kirim Pesan\n"
@@ -43,7 +47,7 @@ int main(){
 			   "\n Pilihan anda (y/n) : ");
 		scanf(" %c", &rpt1);
 	
-	}while(rpt1 == 'y');
+	} while(rpt1 == 'y');
 	
 	return 0;
 }

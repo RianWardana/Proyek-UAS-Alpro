@@ -1,49 +1,69 @@
 // Ida Bagus Krishna Yoga Utama (1506716983)
 // Nurian Satya Wardana (1506717071)
 
+// Melampirkan libary-library yang dibutuhkan.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <winsock2.h>
 #pragma comment(lib,"ws2_32.lib")
 
+// Melampirkan header ini untuk mencari key
+// dari teks yang dimasukkan pengguna
 #include "getKey.h"
 
+
+// Deklarasi prototype dari fungsi yang
+// nanti akan digunakan
 int sender();
 void printHeader();
 int helpMenu();
 void populateTable();
 
+// Mendeklarasikan array yang nanti
+// akan digunakan untuk proses enkripsi.
 int table[95];
 
 
-
+// Fungsi ini adalah untuk mengirimkan pesan
+// ke server.
 int sender(){
-	char nama[20];
-    char msgRaw[99];
+	char nama[20];								// nama pengguna
+    char msgRaw[99];							// pesan yang ditulis pengguna
     char *msgWithName = (char*)malloc(120); 	// pesan yang sudah disertai dengan nama pengirim
-	char selesai[10];
-	strcpy(selesai,"selesai");
+	
+	// Digunakan untuk mengakhiri program
+	// jika pengguna menulis "selesai".
+	char selesai[10];							
+	strcpy(selesai,"selesai");					
 
+	// Menampilkan tulisan pada atas program
     printHeader();
     printf("\n");
 
+    // Meminta pengguna menulis 'password'
+    // sebagai key pada proses enkripsi.
     int key = getKey();
+    
+    // Digunakan untuk proses enkripsi
     populateTable(key);
-    // printf("Key: %d\n", key);
 
+    // Meminta pengguna untuk menulis nama
     printf(" Nama Anda: ");
     scanf(" %[^\n]%*c", &nama);
 
+    // Hal ini akan diulang selamanya (selama program berjalan)
  	while (1) {
         printHeader();
+
+        // Meminta pengguna menuliskan pesannya
         printf("\n Pesan Anda: ");
         scanf(" %[^\n]%*c", msgRaw);
         
-        if(strcmp(msgRaw,selesai) == 0){
+        // Menghentikan program saat pengguna menulis "selesai"
+        if(strcmp(msgRaw, selesai) == 0){
         	exit(1);
 		}
-        
         
         // Menggabungkan [NAMA] dan [PESAN] menjadi [NAMA]: [PESAN]
         sprintf(msgWithName, "%s: %s", nama, msgRaw);
@@ -56,20 +76,18 @@ int sender(){
 		} 
 
 		// Mendeklarasi msgEncrypted yang panjangnya
-		// sesuai dengan panjang [PESAN]
+		// sesuai dengan panjang [PESAN].
 		char *msgEncrypted = (char*)malloc(length);
 
+		// Melakukan enkripsi pada pesan pengguna yaitu dengan
+		// memetakan representasi ASCII dari masing-masing huruf
+		// pada pesan.
 		for (i = 0; i < length; i++) {
 			if ((msgWithName[i] > 126) || (msgWithName[i] < 32)) msgWithName[i] == '?';
 			msgEncrypted[i] = table[msgWithName[i]-32] + 32;
 		}
 
-		// printf("\n Data yang telah terenkripsi adalah: \n ");
-		// for(i = 0; i < length; i++){
-		// 	printf("%c", msgEncrypted[i]);
-		// }
-
-	/* ==================== Start of WinSock Class ===================================================== */
+		// Deklarasi variabel-variabel yang dibutuhkan untuk library WinSock
         WSADATA wsa;
         SOCKET s;
         struct sockaddr_in server;
@@ -89,9 +107,13 @@ int sender(){
         } //else printf("Socket created.\n");
         
         // Definisi identitas server ///////////////////////////////////////////////////////////
-        server.sin_addr.s_addr = inet_addr("103.43.44.105");	// lokasi server
+        // Mendefinisikan IP dari server
+        server.sin_addr.s_addr = inet_addr("103.43.44.105");
         server.sin_family = AF_INET;
-        server.sin_port = htons(8888);							// port pada server
+
+        // Mendefinisikan pada port berapa program server
+        // listening kepada request.
+        server.sin_port = htons(8888);
      
         // Menghubungi server //////////////////////////////////////////////////////////////////
         if (connect(s, (struct sockaddr *)&server, sizeof(server)) < 0) {
@@ -99,29 +121,24 @@ int sender(){
             return 1;
         } //else printf("Koneksi ke server berhasil.\n");
 		
-        // Formatting header //////////////////////////////////////////////////////////////////
-        //sprintf(header, "POST /alpro/index.php/app/send HTTP/1.1\r\n"
-        //                "Host: 103.43.44.105\r\n"
-        //                "Connection: keep-alive\r\n"
-        //                "Content-Type: text/plain\r\n"
-        //                "Accept: */*\r\n"
-        //                "Content-Length: %d\r\n\r\n", length);
-        
-        // Formatting pesan //////////////////////////////////////////////////////////////////
-        // sprintf(msgUrlFormatted, "%s\r\n", msgEncrypted); // tadinya %s\r\n
-
-        // Kirim HTTP POST request ///////////////////////////////////////////////////////////
-        //send(s, header, strlen(header), 0);
-        send(s, msgEncrypted, strlen(msgEncrypted), 0); // tadinya msgUrlFormatted, strlen(msgUrlFormatted
+        // Kirim pesan ////////////// ///////////////////////////////////////////////////////////
+        send(s, msgEncrypted, strlen(msgEncrypted), 0);
         printf(" Pesan terkirim.");
         
+        // Menutup koneksi soket dan menghapus memory
+        // yang tadi digunakan untuk WSADATA (WinSock).
         closesocket(s);
         WSACleanup();
     }
 }
 
 
-
+// Mengisi tabel yang melakukan pemetaan dari satu
+// angka ke angka lain, yang mana angka tersebut
+// adalah representasi ASCII dari setiap huruf 
+// pada pesan yang ditulis pengguna.
+// Dasar melakukannya pemetaan didasarkan atas
+// password (key) yang ditulis oleh pengguna.
 void populateTable(int key) {
 	int i;
 	for (i = 0; i < 95; i++) table[i] = -1;
@@ -139,7 +156,7 @@ void populateTable(int key) {
 }
 
 
-
+// Menampilkan pesan bantuan
 int helpMenu(){ 
 	char rpt,pilih;
 	
@@ -191,6 +208,7 @@ int helpMenu(){
 	return 0;
 }
 
+// Menampilkan header
 void printHeader(){
 	system("mode 80");
 	system("color F0");
